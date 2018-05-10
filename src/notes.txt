@@ -1,0 +1,17 @@
+Heads up that the clarifai API has been updated since I made the next video. You will get an error using Clarifai.DETECT_FACE,  it appears to have changed to Clarifai.FACE_DETECT_MODEL.
+
+Also, the URL in the next video has also been updated. Keep this in mind as you go through the exercise:
+
+
+
+app.models
+.predict(
+Clarifai.COLOR_MODEL,
+    // URL
+    "https://samples.clarifai.com/metro-north.jpg"
+)
+.then(function(response) {
+    // do something with responseconsole.log(response);
+    },
+    function(err) {// there was an error}
+);
