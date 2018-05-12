@@ -26,10 +26,7 @@ const particlesOptions =  {
   }
 }
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
+const initialState = {
       input: '',
       imageUrl: '',
       box: {},
@@ -42,7 +39,12 @@ class App extends Component {
         entries: '',
         joined: ''
       }
-    }
+}
+
+class App extends Component {
+  constructor() {
+    super();
+    this.state = initialState
   }
 
 loadUser = (data) => {
@@ -88,10 +90,11 @@ displayFaceBox = (box) => {
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({ id: this.state.user.id })
         })
-    .then(response => response.json())
-    .then(count => {
-      this.setState(Object.assign(this.state.user, { entries: count }))
-    })
+      .then(response => response.json())
+      .then(count => {
+        this.setState(Object.assign(this.state.user, { entries: count }))
+      })
+      .catch(console.log)
       }
     this.displayFaceBox(this.calculateFaceLocation(response))
     })
@@ -100,9 +103,7 @@ displayFaceBox = (box) => {
 
   onRouteChange = (route) => {
     if (route === 'signout') {
-      this.setState({isSignedIn: false})
-      this.setState({imageUrl: ''})
-      this.setState({box: ''})
+      this.setState(initialState)
     } else if (route === 'home') {
       this.setState({isSignedIn: true})
     }
@@ -121,7 +122,7 @@ displayFaceBox = (box) => {
               <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
                <FaceRecognition box={box} imageUrl={imageUrl}/>
             </div>
-        : ( route === 'signin' || route == 'signout'
+        : ( route === 'signin' || route === 'signout'
           ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
           : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
         )
