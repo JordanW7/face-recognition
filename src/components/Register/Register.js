@@ -1,5 +1,7 @@
 import React from 'react';
 
+const linkBackEnd = 'https://pacific-bastion-77424.herokuapp.com'
+
 class Register extends React.Component {
 	constructor(props) {
 		super(props)
@@ -19,7 +21,7 @@ class Register extends React.Component {
 		this.setState({password: event.target.value})
 	}
 	onSubmitSignIn = () => {
-		fetch('http://localhost:3001/register', {
+		fetch(`${linkBackEnd}/register`, {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
@@ -30,7 +32,7 @@ class Register extends React.Component {
 		})
 		.then(response => response.json())
 		.then(user => {
-			if (user) {
+			if (user.id) {
 				this.props.loadUser(user)
 				this.props.onRouteChange('home');
 			}
